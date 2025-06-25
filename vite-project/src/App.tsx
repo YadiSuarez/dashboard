@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import HeaderUI from './components/headerUI';
 import AlertUI from './components/AlertUI';
 import {Grid} from '@mui/material';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <Grid container spacing={5} justifyContent="center" alignItems="center">
