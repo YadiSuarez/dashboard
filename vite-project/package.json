@@ -15,6 +15,10 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.1",
+    "@mui/x-charts": "^8.7.0",
+    "@mui/x-data-grid": "^8.7.0",
+    "install": "^0.13.0",
+    "npm": "^11.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -32,8 +36,5 @@
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
   },
-  "homepage": "https://yadisuarez.github.io/dashboard"
- 
-         
-        
+  "homepage": "https://andressalazar19.github.io/dashboard"
 }
