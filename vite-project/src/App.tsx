@@ -19,14 +19,15 @@ function App() {
 
   // Coordenadas por ciudad
   const cityCoords: Record<string, { lat: number; lon: number }> = {
-    guayaquil: { lat: -2.1962, lon: -79.8862 },
-    quito: { lat: -0.1807, lon: -78.4678 },
-    manta: { lat: -0.9677, lon: -80.7089 },
-    cuenca: { lat: -2.9006, lon: -79.0045 },
+    guayaquil: { lat: -2.19616, lon: -79.88621 },
+    quito: { lat: -0.22985, lon: -78.52495 },
+    manta: { lat: -0.94937, lon: -80.73137 },
+    cuenca: { lat: -2.90055, lon: -79.00453 },
   };
 
   useEffect(() => {
     const fetchWeather = async () => {
+      setWeather(null);
       setLoading(true);
       setError(null);
       try {
@@ -94,15 +95,6 @@ function App() {
          </Grid>
 
          {/* Gráfico */}
-         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: "none", md: "block"} }} >Elemento: Gráfico</Grid>
-
-         {/* Tabla */}
-         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: "none", md: "block"} }} >Elemento: Tabla</Grid>
-
-         {/* Información adicional */}
-         <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
-          
-          {/* Gráfico */}
            <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
               <ChartUI city={city} />
            </Grid>
@@ -111,6 +103,10 @@ function App() {
            <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
               <TableUI city={city} />
            </Grid>
+
+         {/* Información adicional */}
+         <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>    
+          
 
       </Grid>
   )
