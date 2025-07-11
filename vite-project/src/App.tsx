@@ -1,7 +1,7 @@
 import HeaderUI from './components/headerUI';
 import AlertUI from './components/AlertUI';
 import SelectorUI from './components/SelectUI';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {Grid} from '@mui/material';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
@@ -13,37 +13,10 @@ import ChartUI from './components/ChartUI';
 function App() {
   // Estado para la ciudad seleccionada
   const [city, setCity] = useState('guayaquil');
-  const [weather, setWeather] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Coordenadas por ciudad
-  const cityCoords: Record<string, { lat: number; lon: number }> = {
-    guayaquil: { lat: -2.1962, lon: -79.8862 },
-    quito: { lat: -0.1807, lon: -78.4678 },
-    manta: { lat: -0.9677, lon: -80.7089 },
-    cuenca: { lat: -2.9006, lon: -79.0045 },
-  };
+  // Usa el hook personalizado para obtener los datos
+  const { data: weather, loading, error } = DataFetcher(city);
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const coords = cityCoords[city] || cityCoords['guayaquil'];
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&hourly=temperature_2m,wind_speed_10m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&timezone=America%2FChicago`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Error al obtener los datos del clima.');
-        const data = await response.json();
-        setWeather(data);
-      } catch (err: any) {
-        setError(err.message || 'Error inesperado.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchWeather();
-  }, [city]);
 
   return (
     <Grid container spacing={5} justifyContent="center" alignItems="center">
@@ -94,15 +67,6 @@ function App() {
          </Grid>
 
          {/* Gráfico */}
-         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: "none", md: "block"} }} >Elemento: Gráfico</Grid>
-
-         {/* Tabla */}
-         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: "none", md: "block"} }} >Elemento: Tabla</Grid>
-
-         {/* Información adicional */}
-         <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
-          
-          {/* Gráfico */}
            <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
               <ChartUI city={city} />
            </Grid>
@@ -111,6 +75,10 @@ function App() {
            <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
               <TableUI city={city} />
            </Grid>
+
+         {/* Información adicional */}
+         <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>    
+          
 
       </Grid>
   )
