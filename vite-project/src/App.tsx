@@ -1,7 +1,7 @@
 import HeaderUI from './components/headerUI';
 import AlertUI from './components/AlertUI';
 import SelectorUI from './components/SelectUI';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {Grid} from '@mui/material';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
@@ -13,38 +13,10 @@ import ChartUI from './components/ChartUI';
 function App() {
   // Estado para la ciudad seleccionada
   const [city, setCity] = useState('guayaquil');
-  const [weather, setWeather] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Coordenadas por ciudad
-  const cityCoords: Record<string, { lat: number; lon: number }> = {
-    guayaquil: { lat: -2.19616, lon: -79.88621 },
-    quito: { lat: -0.22985, lon: -78.52495 },
-    manta: { lat: -0.94937, lon: -80.73137 },
-    cuenca: { lat: -2.90055, lon: -79.00453 },
-  };
+  // Usa el hook personalizado para obtener los datos
+  const { data: weather, loading, error } = DataFetcher(city);
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      setWeather(null);
-      setLoading(true);
-      setError(null);
-      try {
-        const coords = cityCoords[city] || cityCoords['guayaquil'];
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&hourly=temperature_2m,wind_speed_10m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&timezone=America%2FChicago`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Error al obtener los datos del clima.');
-        const data = await response.json();
-        setWeather(data);
-      } catch (err: any) {
-        setError(err.message || 'Error inesperado.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchWeather();
-  }, [city]);
 
   return (
     <Grid container spacing={5} justifyContent="center" alignItems="center">
