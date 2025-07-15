@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), VitePWA({
          registerType: 'autoUpdate',
          devOptions: {
-            enabled: true
+            enabled: true // activa el modo de desarrollo para PWA
          },
          includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
    manifest: {
