@@ -8,7 +8,11 @@ import DataFetcher from './functions/DataFetcher';
 import './App.css';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
-
+import CohereRecommendations from './components/RecomendationsUI';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import ThermostatAutoIcon from '@mui/icons-material/ThermostatAuto';
+import AirIcon from '@mui/icons-material/Air';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 function App() {
   // Estado para la ciudad seleccionada
@@ -19,10 +23,10 @@ function App() {
 
 
   return (
-    <Grid container spacing={5} justifyContent="center" alignItems="center">
+    <Grid container spacing={5} justifyContent="center" alignItems="center" sx={{padding: '20px'}}>
 
          {/* Encabezado */}
-         <Grid size={{ xs: 12, md: 12 }}>
+         <Grid size={{ xs: 12, md: 12 }}  id="encabezado">
           <HeaderUI/>
          </Grid>
 
@@ -45,22 +49,31 @@ function App() {
                <Grid size={{ xs: 12, md: 3 }} >
                  <IndicatorUI
                    title='Temperatura (2m)'
-                   description={weather.current.temperature_2m + ' ' + weather.current_units.temperature_2m} />
+                   description={weather.current.temperature_2m + ' ' + weather.current_units.temperature_2m}
+                   icon={<DeviceThermostatIcon sx={{color: "red"}}/>}
+                   background='#fceded' />
                </Grid>
                <Grid size={{ xs: 12, md: 3 }}>
                  <IndicatorUI
                    title='Temperatura aparente'
-                   description={weather.current.apparent_temperature + ' ' + weather.current_units.apparent_temperature} />
+                   description={weather.current.apparent_temperature + ' ' + weather.current_units.apparent_temperature} 
+                   icon={<ThermostatAutoIcon sx={{color: "red"}} />}
+                   background='#fceded'/>
+                  
                </Grid>
                <Grid size={{ xs: 12, md: 3 }}>
                  <IndicatorUI
                    title='Velocidad del viento'
-                   description={weather.current.wind_speed_10m + ' ' + weather.current_units.wind_speed_10m} />
+                   description={weather.current.wind_speed_10m + ' ' + weather.current_units.wind_speed_10m}
+                   icon={<AirIcon sx={{color: "blue"}}/>} 
+                   background='#ecebfc'/>
                </Grid>
                <Grid size={{ xs: 12, md: 3 }}>
                  <IndicatorUI
                    title='Humedad relativa'
-                   description={weather.current.relative_humidity_2m + ' ' + weather.current_units.relative_humidity_2m} />
+                   description={weather.current.relative_humidity_2m + ' ' + weather.current_units.relative_humidity_2m} 
+                   icon= {<WaterDropIcon sx={{color: "blue"}}/>}
+                   background='#ecebfc'/>
                </Grid>
              </>
            )}
@@ -77,8 +90,16 @@ function App() {
            </Grid>
 
          {/* Información adicional */}
-         <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>    
-          
+         <Grid size={{ xs: 12, md: 12 }}>
+           {weather && weather.current && (
+            <CohereRecommendations
+               temperatura={weather.current.temperature_2m}
+               viento={weather.current.wind_speed_10m}
+               humedad={weather.current.relative_humidity_2m}
+             />
+          )}
+         </Grid>    
+         
 
       </Grid>
   )

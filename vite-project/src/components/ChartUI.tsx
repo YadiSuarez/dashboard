@@ -39,6 +39,8 @@ export default function ChartUI({ city }: ChartUIProps) {
           { data: windData, label: 'Viento (km/h)' },
         ]}
         xAxis={[{ scaleType: 'point', data: labels }]}
+        sx={{
+          backgroundColor: '#f1f4f8'}}
       />
     </>
   );

@@ -21,6 +21,15 @@ export default function SelectorUI({ city, setCity }: SelectorUIProps) {
         label="Ciudad"
         onChange={handleChange}
         value={city}
+        sx={{
+        backgroundColor: '#f1f4f8ff',
+        borderRadius: 2,
+        '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#1976d2', // Borde azul por defecto
+        },
+    
+    
+  }}
       >
         <MenuItem value={"guayaquil"}>Guayaquil</MenuItem>
         <MenuItem value={"quito"}>Quito</MenuItem>
