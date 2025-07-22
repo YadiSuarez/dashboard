@@ -5,21 +5,21 @@ import Alert from '@mui/material/Alert';
 import DataFetcher from '../functions/DataFetcher';
 
 const columns: GridColDef[] = [
-   { field: 'id', headerName: 'ID', width: 90 },
+   { field: 'id', headerName: 'ID', width: 70, },
    {
       field: 'hour',
       headerName: 'Hora',
-      width: 120,
+      width: 90,
    },
    {
       field: 'temperature',
       headerName: 'Temperatura (°C)',
-      width: 160,
+      width: 140,
    },
    {
       field: 'wind',
       headerName: 'Viento (km/h)',
-      width: 150,
+      width: 120,
    },
    {
       field: 'resumen',
@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
       description: 'No es posible ordenar u ocultar esta columna.',
       sortable: false,
       hideable: false,
-      width: 200,
+      width: 220,
       valueGetter: (_, row) => {
          // row.time is the full ISO string, e.g. '2025-07-09T14:00'
          // If not present, fallback to hour only
@@ -69,7 +69,7 @@ export default function TableUI({ city }: TableUIProps) {
   if (error) return <Alert severity="error">{error}</Alert>;
 
   return (
-    <Box sx={{ height: 350, width: '100%' }}>
+    <Box sx={{ height: 400, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -80,8 +80,9 @@ export default function TableUI({ city }: TableUIProps) {
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[3]}
         disableRowSelectionOnClick
+      
       />
     </Box>
   );

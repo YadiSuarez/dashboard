@@ -1,8 +1,23 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+}
+
+#encabezado {
+  color:  #f5f6f8;;
+  background-color: #142f66 ;
+  padding: 1em;
+}
+
+#city-select-label{
+  color:rgb(236, 245, 245);
+}
+#city-simple-select {
+  color: #f5f6f8;
+  background-color: #142f66;
+}
+.table-header{
+  background-color: #53bd33;
 }
 
 .logo {
@@ -31,6 +46,21 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+@media (prefers-color-scheme: light) {
+  #encabezado {
+    background-color: #5978df;
+  }
+  #city-select-label{
+  color: #5978df;
+  }
+  #city-simple-select {
+  background-color: #f1f4f8;
+  border-radius: 2px;
+  color: black
+  }
+  
 }
 
 .card {
