@@ -109,15 +109,6 @@ console.log("Respuesta de Cohere:", response);
               <TableUI city={city} />
            </Grid>
 
-         {/* Información adicional */}
-         <Grid size={{ xs: 12, md: 12 }}>
-           {weather && weather.current && (
-            <CohereRecommendations
-               weather={weather}
-               city={city}
-             />
-          )}
-         </Grid>    
          
 
       </Grid>

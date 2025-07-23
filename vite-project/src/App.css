@@ -1,38 +1,128 @@
+/* CENTRADO Y FUENTE BASE */
 #root {
   margin: 0 auto;
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6f8;
+  transition: background-color 0.4s ease-in-out;
 }
 
+/* ENCABEZADO CON ANIMACIÓN */
 #encabezado {
-  color:  #f5f6f8;;
-  background-color: #142f66 ;
-  padding: 1em;
+  color: #f5f6f8;
+  background-color: #142f66;
+  padding: 1.5em;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  animation: slideInDown 0.8s ease-out forwards;
 }
 
-#city-select-label{
-  color:rgb(236, 245, 245);
+/* SELECT LABEL Y SELECTOR */
+#city-select-label {
+  color: rgb(236, 245, 245);
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+  display: block;
+  transition: color 0.3s;
 }
+
 #city-simple-select {
   color: #f5f6f8;
   background-color: #142f66;
-}
-.table-header{
-  background-color: #53bd33;
+  padding: 0.6em 1em;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
+#city-simple-select:hover {
+  background-color: #204090;
+  transform: scale(1.05);
+}
+
+/* Quitar animación del selector */
+#city-select-label, #city-simple-select {
+  animation: none !important;
+  opacity: 1 !important;
+  transition: color 0.3s, background 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+/* TABLA ENCABEZADO */
+.table-header {
+  background-color: #53bd33;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: fadeIn 1s ease-in;
+}
+
+/* LOGO ANIMADO */
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  will-change: filter, transform;
+  transition: filter 300ms, transform 0.3s ease-in-out;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+  transform: rotate(5deg) scale(1.1);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* ANIMACIÓN DE ROTACIÓN CONTINUA */
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* TEMA CLARO */
+@media (prefers-color-scheme: light) {
+  #encabezado {
+    background-color: #5978df;
+  }
+  #city-select-label {
+    color: #5978df;
+  }
+  #city-simple-select {
+    background-color: #f1f4f8;
+    color: #142f66;
+    border: 1px solid #cdd7f3;
+  }
+}
+
+/* TARJETAS */
+.card {
+  padding: 2em;
+  background-color: white;
+  margin: 1em auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* TEXTO DE DOCUMENTACIÓN */
+.read-the-docs {
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: 2em;
+  transition: color 0.3s;
+}
+.read-the-docs:hover {
+  color: #444;
+}
+
+/* ANIMACIONES CLAVE */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -42,31 +132,72 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes slideInDown {
+  from {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-@media (prefers-color-scheme: light) {
-  #encabezado {
-    background-color: #5978df;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  #city-select-label{
-  color: #5978df;
+  to {
+    opacity: 1;
   }
-  #city-simple-select {
-  background-color: #f1f4f8;
-  border-radius: 2px;
-  color: black
-  }
-  
 }
 
-.card {
-  padding: 2em;
+/* ANIMACIONES EXTRA PARA DASHBOARD */
+
+/* Fade in para tablas y grids */
+.mui-datagrid-container, .data-grid-parent {
+  animation: fadeInUp 1s cubic-bezier(0.4,0,0.2,1);
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-delay: 0.3s;
 }
 
-.read-the-docs {
-  color: #888;
+/* Animación para las filas de la tabla */
+.MuiDataGrid-row {
+  animation: fadeInRow 0.7s cubic-bezier(0.4,0,0.2,1);
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
+.MuiDataGrid-row:nth-child(1) { animation-delay: 0.1s; }
+.MuiDataGrid-row:nth-child(2) { animation-delay: 0.2s; }
+.MuiDataGrid-row:nth-child(3) { animation-delay: 0.3s; }
+.MuiDataGrid-row:nth-child(4) { animation-delay: 0.4s; }
+.MuiDataGrid-row:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateX(-40px);}
+  to   { opacity: 1; transform: translateX(0);}
+}
+
+/* Animación para alertas */
+.MuiAlert-root {
+  animation: fadeInLeft 0.8s cubic-bezier(0.4,0,0.2,1);
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px);}
+  to   { opacity: 1; transform: translateX(0);}
+}
+
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.8);}
+  to   { opacity: 1; transform: scale(1);}
+}
+

@@ -29,7 +29,7 @@ export default function ChartUI({ city }: ChartUIProps) {
 
   return (
     <>
-      <Typography variant="h5" component="div" gutterBottom>
+      <Typography variant="h5" component="div" gutterBottom sx={{ color: 'black' }}>
         Temperatura y Velocidad del Viento (últimas 24h)
       </Typography>
       <LineChart
