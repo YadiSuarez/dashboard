@@ -13,6 +13,7 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import ThermostatAutoIcon from '@mui/icons-material/ThermostatAuto';
 import AirIcon from '@mui/icons-material/Air';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import useCohereAssistant from './functions/CohereAssistant';
 
 function App() {
   // Estado para la ciudad seleccionada
@@ -21,18 +22,22 @@ function App() {
   // Usa el hook personalizado para obtener los datos
   const { data: weather, loading, error } = DataFetcher(city);
 
+  // Hook para las recomendaciones de Cohere
 
+  const {
+  response,
+} = useCohereAssistant(weather!, "Dame 4 recomendaciones o acotaciones muy breves según el clima, y clasifica cada una con una severidad entre: success, info, warning o error. Usa este formato:\n\n[SEVERITY] Recomendación. No uses asteriscos ni comillas.\n\nEjemplo:\n\n[success] Lleva paraguas si sales.\n[info] Hoy es un buen día para hacer ejercicio al aire libre.\n[warning] Evita salir si no es necesario, el viento está fuerte.\n[error] No salgas sin abrigo, la temperatura es muy baja.", city);
+
+
+
+
+console.log("Respuesta de Cohere:", response);
   return (
     <Grid container spacing={5} justifyContent="center" alignItems="center" sx={{padding: '20px'}}>
 
          {/* Encabezado */}
          <Grid size={{ xs: 12, md: 12 }}  id="encabezado">
           <HeaderUI/>
-         </Grid>
-
-         {/* Alertas */}
-         <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center">
-          <AlertUI description='No se preveen lluvias'/>
          </Grid>
 
          {/* Selector */}
@@ -79,6 +84,21 @@ function App() {
            )}
          </Grid>
 
+         {/* Alertas */}
+         <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center">
+            {response?.split('\n').map((line, index) => {
+  // Regex para líneas que comienzan con [severity] seguido de texto
+  const match = line.match(/^\s*\[(success|info|warning|error)\]\s+(.+)$/i);
+  if (!match) return null;
+  const [, severity, text] = match;
+        return (
+          <Grid size={{xs:12, md:3}} key={index}>
+            <AlertUI description={text} severity={severity.toLowerCase() as any} />
+          </Grid>
+        );
+      })}
+         </Grid>
+
          {/* Gráfico */}
            <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
               <ChartUI city={city} />
@@ -93,9 +113,8 @@ function App() {
          <Grid size={{ xs: 12, md: 12 }}>
            {weather && weather.current && (
             <CohereRecommendations
-               temperatura={weather.current.temperature_2m}
-               viento={weather.current.wind_speed_10m}
-               humedad={weather.current.relative_humidity_2m}
+               weather={weather}
+               city={city}
              />
           )}
          </Grid>    
