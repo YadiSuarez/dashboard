@@ -6,23 +6,25 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import type { OpenMeteoResponse } from "../types/DashboardTypes";
 
 interface CohereRecommendationsProps {
-  temperatura: number;
-  viento: number;
-  humedad: number;
+  weather: OpenMeteoResponse;
+  city: string;
 }
 
-export default function CohereRecommendations({ temperatura, viento, humedad }: CohereRecommendationsProps) {
-  const { response, loading, error, sendWeatherQuery, callsLeft } = useCohereAssistant();
-  const [requested, setRequested] = useState(false);
+export default function CohereRecommendations(data: CohereRecommendationsProps) {
   const [prompt, setPrompt] = useState("");
+  const [requestedPrompt, setRequestedPrompt] = useState<string | null>(null);
+
+  const userPrompt = requestedPrompt ?? "";
+  const { response, loading, error, callsLeft } = useCohereAssistant(data.weather, userPrompt, data.city[0]);
 
   const handleClick = () => {
-    // Si el usuario no escribe nada, se usa un prompt por defecto
-    const userPrompt = prompt.trim() || "¿Qué recomendaciones hay para este clima?";
-    sendWeatherQuery(userPrompt, { temperatura, viento, humedad });
-    setRequested(true);
+    const finalPrompt =
+      prompt.trim() ||
+      "Dame 4 recomendaciones o acotaciones muy breves según el clima, y clasifica cada una con una severidad entre: success, info, warning o error. Usa este formato:\n\n[SEVERITY] Recomendación. No uses asteriscos ni comillas.\n\nEjemplo:\n\n[success] Lleva paraguas si sales.\n[info] Hoy es un buen día para hacer ejercicio al aire libre.\n[warning] Evita salir si no es necesario, el viento está fuerte.\n[error] No salgas sin abrigo, la temperatura es muy baja.";
+    setRequestedPrompt(finalPrompt);
   };
 
   return (
@@ -50,22 +52,33 @@ export default function CohereRecommendations({ temperatura, viento, humedad }: 
         >
           Obtener respuesta
         </Button>
+
         {loading && <CircularProgress />}
         {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-        {response && (
-          <Alert severity="info" sx={{ mt: 2 }}>
-            <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-              {response}
+
+        {requestedPrompt && (
+          <>
+            <Typography variant="body2" sx={{ mt: 2, mb: 1 }}>
+              <strong>Tu pregunta:</strong> {requestedPrompt}
             </Typography>
-          </Alert>
+            {response && (
+              <Alert severity="info" sx={{ mt: 1 }}>
+                <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                  {response}
+                </Typography>
+              </Alert>
+            )}
+          </>
         )}
-        {!requested && (
+
+        {!requestedPrompt && (
           <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
             Presiona el botón para recibir sugerencias personalizadas según el clima.
           </Typography>
         )}
+
         <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: "block" }}>
-         Consultas restantes: {callsLeft}
+          Consultas restantes: {callsLeft}
         </Typography>
       </CardContent>
     </Card>
