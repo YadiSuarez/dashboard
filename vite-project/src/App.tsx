@@ -8,7 +8,6 @@ import DataFetcher from './functions/DataFetcher';
 import './App.css';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
-import CohereRecommendations from './components/RecomendationsUI';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import ThermostatAutoIcon from '@mui/icons-material/ThermostatAuto';
 import AirIcon from '@mui/icons-material/Air';
